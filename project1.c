@@ -81,8 +81,6 @@ int main(){
             break;
         case 'i': lista_intersecoes_carreiras();
             break;
-        case 'f': mostra_carreira();
-            break;
         }
     }
     return 0;
@@ -148,19 +146,17 @@ void nova_carreira(char nome_carreira[]) {
 numero de paragens, custo e duracao total*/
 void imprime_carreiras(){
     int l;
-    for (l = 0; l < numCarreiras; l++) {
-        if (strlen(carreiras[l].nomeCarreira) < 6)
-            printf("%s ", carreiras[l].nomeCarreira);
-                if(carreiras[l].num_paragens == 0)  /*carreira sem paragens*/
-                    printf("%d %.2f %.2f\n", carreiras[l].num_paragens, 
-                    carreiras[l].custo_total, carreiras[l].duracao_total);
-                else {
-                    printf("%s %s ", carreiras[l].paragens[0].nomeParagem, 
-                    carreiras[l].paragens[carreiras[l].num_paragens-1].nomeParagem);
-                    printf("%d %.2f %.2f\n", carreiras[l].num_paragens, 
-                    carreiras[l].custo_total, carreiras[l].duracao_total);
-                }
+    for (l = 0; l < numCarreiras; l++){
+        if(carreiras[l].num_paragens == 0)  /*carreira sem paragens*/
+            printf("%d %.2f %.2f\n", carreiras[l].num_paragens, 
+            carreiras[l].custo_total, carreiras[l].duracao_total);
+        else {
+            printf("%s %s ", carreiras[l].paragens[0].nomeParagem, 
+            carreiras[l].paragens[carreiras[l].num_paragens-1].nomeParagem);
+            printf("%d %.2f %.2f\n", carreiras[l].num_paragens, 
+            carreiras[l].custo_total, carreiras[l].duracao_total);
         }
+    }
 }
 
 /*verifica se a string dada e igual a palavra "inverso" ou uma das 
@@ -246,11 +242,6 @@ void adiciona_lista_paragens(){
     if(lePalavra(nome_paragem, NOME_PARAGEM_MAX)>0){
         if(scanf("%lf %lf", &longi, &lati) == 2){
             if(eh_paragem(nome_paragem)==FALSE)  /*se paragem nao existe*/
-                if (lati < -90 || lati > 90)
-                    printf("%s", LOCALIZACAO_INVALIDA);    /* aquiii*/
-                else if (longi < -180 || longi > 180)
-                    printf("%s", LOCALIZACAO_INVALIDA);
-                else
                 nova_paragem(nome_paragem, longi, lati);
             else
                 printf("%s: %s", nome_paragem, ERRO_PARAGEM_EXISTE);
@@ -427,24 +418,3 @@ void lista_intersecoes_carreiras(){
         }
     }
 }
-
-/*----------------------------------- COMANDO F -------------------------------*/
-
-void mostra_carreira(){
-    char n_paragem[NOME_PARAGEM_MAX];
-    int /*paragem_idx,*/ i;
-
-    if (lePalavra(n_paragem, NOME_PARAGEM_MAX)>0){
-        /*paragem_idx = eh_paragem(n_paragem);*/
-        if (eh_paragem(n_paragem) == FALSE)
-            printf("%s: %s", n_paragem, ERRO_PARAGEM_NAO_EXISTE);
-        else {
-            for (i = 0; i < numCarreiras-1; i++){
-                if (strcmp(n_paragem, carreiras[i].paragens[carreiras[i].num_paragens-1].nomeParagem) == 0)
-                    printf("%s ", carreiras[i].nomeCarreira);
-            }
-        }
-    }
-}
-
-/*mostra as carreiras com fim na paragem indicada, pela ordem ce criacao separadas por espaço*/
